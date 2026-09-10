@@ -3,6 +3,7 @@ from decimal import Decimal
 from datetime import datetime
 
 from app.schemas.cart_item_schema import CartItemResponse
+from app.schemas.user_schema import UserResponse
 
 
 class CartBase(BaseModel):
@@ -14,6 +15,7 @@ class CartCreate(CartBase):
 
 
 class CartResponse(CartBase):
+    user: UserResponse
     id: int
     created_at: datetime
     updated_at: datetime

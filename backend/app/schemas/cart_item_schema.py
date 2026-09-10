@@ -10,12 +10,9 @@ class CartItemBase(BaseModel):
     price: Decimal = Field(..., max_digits=10, decimal_places=2, ge=0)
 
 
-class CartItemCreate(CartItemBase):
-    pass 
-
-
-class CartItemUpdate(BaseModel):
-    quantity: int | None = Field(None, gt=0)
+class CartItemCreate(BaseModel):
+    product_id: int
+    quantity: int = Field(..., gt=0)
 
 
 class CartItemResponse(CartItemBase):

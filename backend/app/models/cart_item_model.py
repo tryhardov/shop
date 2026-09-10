@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey, func, Numeric, UniqueConstraint
 from datetime import datetime
 from decimal import Decimal
 
-from app.database import Base
+from database import Base
 
 
 class CartItem(Base):

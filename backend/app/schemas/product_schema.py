@@ -2,6 +2,8 @@ from pydantic import BaseModel, Field, ConfigDict
 from decimal import Decimal
 from datetime import datetime
 
+from app.schemas.category_schema import CategoryResponse
+
 
 class ProductBase(BaseModel):
     category_id: int
@@ -27,6 +29,7 @@ class ProductUpdate(BaseModel):
 
 class ProductResponse(ProductBase):
     id: int
+    category: CategoryResponse
     created_at: datetime
     updated_at: datetime
 
