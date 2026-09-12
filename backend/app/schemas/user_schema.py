@@ -15,6 +15,10 @@ class UserUpdate(BaseModel):
     password: str | None = Field(None, min_length=8)
 
 
+class UserLogin(UserBase):
+    password: str = Field(..., min_length=8)
+
+
 class UserResponse(UserBase):
     id: int
     created_at: datetime

@@ -15,6 +15,10 @@ class CartItemCreate(BaseModel):
     quantity: int = Field(..., gt=0)
 
 
+class CartItemUpdate(BaseModel):
+    quantity: int
+
+
 class CartItemResponse(CartItemBase):
     id: int
     created_at: datetime

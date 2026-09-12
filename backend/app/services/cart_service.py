@@ -21,7 +21,18 @@ class CartService:
         if db_cart is None:
             raise HTTPException(404, 'Cart not found')
 
-        return CartResponse.model_validate(db_cart)
+        total_items_quantity = sum(item.quantity for item in db_cart.items)
+        total_price = sum(item.price for item in db_cart.items)
+
+        return CartResponse(
+            user_id=db_cart.user_id,
+            id=db_cart.id,
+            items=db_cart.items,
+            total_items_quantity=total_items_quantity,
+            total_price=total_price,
+            created_at=db_cart.created_at,
+            updated_at=db_cart.updated_at
+        )
 
 
     async def add_item(self, user_id: int, data: CartItemCreate) -> CartItemResponse:

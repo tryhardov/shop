@@ -13,6 +13,7 @@ class ProductRepository:
     async def get_all_products(self) -> list[Product]:
         db_products = await self.db.execute(
             select(Product)
+            .options(selectinload(Product.category))
         )
 
         return db_products.scalars().all()
@@ -40,6 +41,7 @@ class ProductRepository:
     async def get_products_by_category(self, category_id: int) -> list[Product]:
         db_products = await self.db.execute(
             select(Product)
+            .options(selectinload(Product.category))
             .where(Product.category_id==category_id)
         )
 

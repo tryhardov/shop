@@ -15,7 +15,7 @@ class CartCreate(CartBase):
 
 
 class CartResponse(CartBase):
-    user: UserResponse
+    user_id: int
     id: int
     created_at: datetime
     updated_at: datetime

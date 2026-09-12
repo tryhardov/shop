@@ -10,7 +10,7 @@ class CartItem(Base):
     __tablename__ = 'cart_items'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    cart_id: Mapped[int] = mapped_column(ForeignKey('carts.id'), ondelete='CASCADE')
+    cart_id: Mapped[int] = mapped_column(ForeignKey('carts.id', ondelete='CASCADE'))
     product_id: Mapped[int] = mapped_column(ForeignKey('products.id', ondelete='CASCADE'))
     quantity: Mapped[int] 
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
