@@ -22,7 +22,7 @@ class ProductService:
         if product is None:
             raise HTTPException(
                 status_code=404,
-                detail=f'Product with slug {product_slug} not found'
+                detail='Product not found'
             )
 
         return ProductResponse.model_validate(product)

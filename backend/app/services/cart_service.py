@@ -59,8 +59,8 @@ class CartService:
             return CartItemResponse.model_validate(cart_item)
 
 
-    async def update_item(self, cart_item_id: int, quantity: int) -> CartItemResponse | None:
-        db_cart_item = await self.cart_repository.get_cart_item_by_id(cart_item_id)
+    async def update_item(self, user_id: int, cart_item_id: int, quantity: int) -> CartItemResponse | None:
+        db_cart_item = await self.cart_repository.get_cart_item_by_id_and_user(user_id, cart_item_id)
 
         if db_cart_item is None:
             raise HTTPException(404, 'Cart item not found')
@@ -68,7 +68,7 @@ class CartService:
         quantity += db_cart_item.quantity
 
         if quantity <= 0:
-            await self.cart_repository.delete_cart_item_by_id(cart_item_id)
+            await self.cart_repository.delete_cart_item(user_id, cart_item_id)
             return None
 
         price = db_cart_item.product.price * quantity
@@ -78,13 +78,13 @@ class CartService:
         return CartItemResponse.model_validate(cart_item)
 
 
-    async def delete_cart_item(self, cart_item_id: int) -> None:
-        db_cart_item = await self.cart_repository.get_cart_item_by_id(cart_item_id)
+    async def delete_cart_item(self, user_id: int, cart_item_id: int) -> None:
+        db_cart_item = await self.cart_repository.get_cart_item_by_id_and_user(user_id, cart_item_id)
 
         if db_cart_item is None:
             raise HTTPException(404, 'Cart item not found')
 
-        await self.cart_repository.delete_cart_item_by_id(cart_item_id)
+        await self.cart_repository.delete_cart_item(user_id, cart_item_id)
 
 
     async def delete_all_cart_items(self, user_id: int) -> None:

@@ -55,6 +55,17 @@ class CartRepository:
         return db_cart_item.scalar_one_or_none()
 
 
+    async def get_cart_item_by_id_and_user(self, user_id: int, cart_item_id: int) -> CartItem | None:
+        db_cart_item = await self.db.execute(
+            select(CartItem)
+            .options(selectinload(CartItem.product))
+            .join(Cart, CartItem.cart_id==Cart.id)
+            .where(CartItem.id==cart_item_id, Cart.user_id==user_id)
+        )
+
+        return db_cart_item.scalar_one_or_none()
+
+
     async def add_product_in_cart(self, cart_id: int, price, data: CartItemCreate) -> CartItem:
         cart_item = CartItem(cart_id=cart_id, product_id=data.product_id, quantity=data.quantity, price=price)
 
@@ -77,8 +88,8 @@ class CartRepository:
         return db_cart_item
 
 
-    async def delete_cart_item_by_id(self, cart_item_id: int) -> None:
-        db_cart_item = await self.get_cart_item_by_id(cart_item_id)
+    async def delete_cart_item(self,user_id: int, cart_item_id: int) -> None:
+        db_cart_item = await self.get_cart_item_by_id_and_user(user_id, cart_item_id)
 
         await self.db.delete(db_cart_item)
         await self.db.commit()
