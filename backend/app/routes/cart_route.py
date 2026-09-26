@@ -34,7 +34,7 @@ async def update_item(cart_item_id: int, data: CartItemUpdate, user_id: int = De
     return await service.update_item(user_id, cart_item_id, data.quantity)
 
 
-@router.delete('/remove/cart-item/{cart_item_id}', status_code=204)
+@router.delete('/remove/cart_item/{cart_item_id}', status_code=204)
 async def delete_cart_item(cart_item_id: int, user_id: int = Depends(get_current_user),
                            db: AsyncSession = Depends(get_db)) -> None:
     service = CartService(db)

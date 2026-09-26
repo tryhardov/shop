@@ -2,15 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from config import settings
-print("CORS ORIGINS:", settings.cors_origins)
-from database import init_db, engine
+from database import engine
 from app.routes import cart_router, category_router, product_router, user_router
 from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
     yield
     await engine.dispose()
     
